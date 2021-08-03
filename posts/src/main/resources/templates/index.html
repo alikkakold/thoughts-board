@@ -24,22 +24,39 @@
 
     </form>
 
-    <div class="card mb-2" th:each="record: ${records}">
-        <div class="card-body">
-            <blockquote class="blockquote mb-0">
-                <p th:text="${record.getText()}"/>
-                <footer class="blockquote-footer"><cite title="Source Title" th:text="${record.getNickname()}"/></footer>
-            </blockquote>
-        </div>
+    <div class="row">
+        <div class="col-6" th:each="record: ${records}">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p th:text="${record.getText()}"/>
+                        <footer class="blockquote-footer"><cite title="Source Title" th:text="${record.getNickname()}"/></footer>
+                    </blockquote>
+                </div>
 
-        <form action="#" method="post">
-            <div class="input-group">
-                <input type="text" name="comment" class="form-control" placeholder="Comment record" aria-label="Comment record" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button>
+
+                <a class="btn btn-outline-primary" data-bs-toggle="collapse" th:href="'#collapse'+${record.getId()}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Comments <span th:text="${record.getComments().size()}"/>
+                </a>
+                <div class="collapse" th:id="'collapse'+${record.getId()}">
+                    <div class="card card-body" th:each="comment: ${record.getComments()}" style="padding:5px">
+                        <h5 th:text="${comment.getNickname()}"/>
+                        <p th:text="${comment.getText()}"/>
+                    </div>
+                </div>
+
+
+                <form th:action="'/record/'+${record.getId()}+'/comment'" method="post">
+                    <div class="input-group">
+                        <input type="text" name="nickname" class="form-control" placeholder="Nickname" aria-label="Nickname">
+                        <input type="text" name="text" class="form-control" placeholder="Comment record" aria-label="Comment record" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button>
+                    </div>
+                </form>
             </div>
-        </form>
-
+        </div>
     </div>
+
 </div>
 </body>
 </html>

@@ -1,9 +1,6 @@
 package ru.alikka.posts.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Comment {
@@ -15,11 +12,24 @@ public class Comment {
 	private String nickname;
 	private String text;
 
+	@ManyToOne
+	@JoinColumn(name="record_id", nullable=false)
+	private Record record;
+
 	public Comment () {};
 
-	public Comment(String nickname, String text) {
+	public Comment(Record record, String nickname, String text) {
+		this.record = record;
 		this.nickname = nickname;
 		this.text = text;
+	}
+
+	public Record getRecord() {
+		return record;
+	}
+
+	public void setRecord(Record record) {
+		this.record = record;
 	}
 
 	public Long getId() {

@@ -1,9 +1,7 @@
 package ru.alikka.posts.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Record {
@@ -16,6 +14,9 @@ public class Record {
 	private String text;
 	private Integer likes;
 
+	@OneToMany(mappedBy = "record")
+	private Set<Comment> comments;
+
 	public Record() {
 	}
 
@@ -23,6 +24,22 @@ public class Record {
 		this.nickname = nickname;
 		this.text = text;
 		this.likes = 0;
+	}
+
+	public Integer getLikes() {
+		return likes;
+	}
+
+	public void setLikes(Integer likes) {
+		this.likes = likes;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 
 	public Long getId() {
